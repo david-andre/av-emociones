@@ -34,10 +34,10 @@ const SignIn = () => {
         returnSecureToken: true,
       })
       .then((res) => {
-        localStorage.setItem("token", JSON.stringify(res.data.token));
+        localStorage.setItem("token", res.data.token);
         localStorage.setItem(
           "identificador",
-          JSON.stringify(res.data.identificador)
+          res.data.identificador
         );
         setRedirect(true);
       })
