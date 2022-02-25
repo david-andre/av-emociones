@@ -5,6 +5,8 @@ import Home from "./views/Home";
 import Diagnostic from "./views/Diagnostic";
 import History from "./views/History";
 
+import React, { useState } from "react";
+
 function App() {
   return (
     <BrowserRouter>

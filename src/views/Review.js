@@ -291,6 +291,15 @@ class SimpleForm extends Component {
       data: [],
       display: false,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileInput = React.createRef();
+  }
+
+  loadFile(e) {
+    if (e.target.files.length > 0) {
+      const file = URL.createObjectURL(e.target.files[0]);
+      console.log(file);
+    }
   }
 
   componentWillMount() {
@@ -394,6 +403,11 @@ class SimpleForm extends Component {
     this.handleEnd = this.handleEnd.bind(this);
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.fileInput.current.files[0].mozFullPath);
+  }
+
   handleEnd({ steps, values }) {
     values.splice(values.length - 1, 1);
     values.splice(0, 1);
@@ -436,14 +450,14 @@ class SimpleForm extends Component {
           width={"100%"}
           steps={this.state.data}
         />
-        <button
-          className="btn btn-success mt-3"
-          onClick={() =>
-            this.setState({ data: this.state.data, display: true })
-          }
-        >
-          Tomar foto
-        </button>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Upload file:
+            <input type="file" ref={this.fileInput} />
+          </label>
+          <br />
+          <button type="submit">Submit</button>
+        </form>
       </ThemeProvider>
     );
   }

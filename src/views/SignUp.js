@@ -1,4 +1,5 @@
 import * as React from "react";
+import Swal from "sweetalert2";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 
 import logo from "../assets/logoia.png";
+import apiServices from "../services/API";
 
 const theme = createTheme();
 
@@ -25,6 +27,15 @@ const SignUp = () => {
       password: data.get("password"),
       name: data.get("name"),
     });
+    apiServices
+      .registrarse({
+        email: data.get("email"),
+        contrasena: data.get("password"),
+        nombreCompleto: data.get("name"),
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
