@@ -5,6 +5,7 @@ import Home from "./views/Home";
 import Diagnostic from "./views/Diagnostic";
 import History from "./views/History";
 import React, { useEffect, useState } from "react";
+import { Chart } from "./views/Chart";
 
 import apiServices from "./services/API";
 
@@ -32,6 +33,7 @@ function App() {
           element={<Diagnostic preguntas={preguntas} />}
         ></Route>
         <Route path="/historial" element={<History />}></Route>
+        <Route path="/chart" element={<Chart />}></Route>
         <Route path="/" element={<Navigate to="/iniciar-sesion" />} />
       </Routes>
     </BrowserRouter>
