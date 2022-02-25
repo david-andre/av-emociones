@@ -34,7 +34,11 @@ const SignIn = () => {
         returnSecureToken: true,
       })
       .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.token));
+        localStorage.setItem("token", JSON.stringify(res.token));
+        localStorage.setItem(
+          "identificador",
+          JSON.stringify(res.identificador)
+        );
         setRedirect(true);
       })
       .catch((e) => {
@@ -43,7 +47,7 @@ const SignIn = () => {
   };
 
   if (redirect) {
-    <Navigate to="/home" />;
+    return <Navigate to="/home" />;
   }
   return (
     <ThemeProvider theme={theme}>

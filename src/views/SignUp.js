@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import logo from "../assets/logoia.png";
 import apiServices from "../services/API";
@@ -18,6 +18,7 @@ import apiServices from "../services/API";
 const theme = createTheme();
 
 const SignUp = () => {
+  const [redirect, setRedirect] = React.useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,9 +36,15 @@ const SignUp = () => {
       })
       .then((res) => {
         console.log(res);
+        if (res !== undefined) {
+          setRedirect(true);
+        }
       });
   };
 
+  if (redirect) {
+    return <Navigate to="/iniciar-sesion" />;
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid
