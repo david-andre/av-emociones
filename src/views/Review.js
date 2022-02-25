@@ -400,7 +400,7 @@ class SimpleForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.fileInput.current.files[0].name);
+    console.log("Entre");
     this.setState({
       data: this.state.data,
       image: this.fileInput.current.files[0].name,
@@ -414,9 +414,9 @@ class SimpleForm extends Component {
     values.splice(0, 1);
 
     const result = {
-      nombre: "Cristian",
+      nombre: "AV",
       respuestas: values,
-      imagen: "maurof1.jpeg",
+      imagen: this.state.image,
     };
     console.log(result);
 
@@ -485,9 +485,7 @@ class SimpleForm extends Component {
                 confirmButtonText: "OK",
               }).then((result) => {
                 if (result.isConfirmed) {
-                  const user = JSON.parse(
-                    localStorage.getItem("identificador")
-                  );
+                  const user = localStorage.getItem("identificador");
                   apiServices.agregarresultado({
                     emocion: res.data.emocionF,
                     fecha: new Date().toLocaleDateString(),
