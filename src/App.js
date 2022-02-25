@@ -6,7 +6,7 @@ import Diagnostic from "./views/Diagnostic";
 import History from "./views/History";
 import React, { useEffect, useState } from "react";
 
-import apiServices from "../services/API";
+import apiServices from "./services/API";
 
 function App() {
   const [preguntas, setPreguntas] = useState([]);

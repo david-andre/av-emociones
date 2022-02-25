@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import WebcamCapture from "./WebcamCapture";
 
-
 import logo from "../assets/logocircle.png";
 import user from "../assets/user.png";
 
@@ -24,82 +23,82 @@ const preguntasTest = [
   {
     acronimo: "Intranquilo",
     num_pregunta: 3,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente con mal humor?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 4,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente impactado?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 5,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente optimista?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 6,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente Alegre?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 7,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente irritado?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 8,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente nervioso?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 9,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente ansioso?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 10,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente enfadado?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 11,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente tenso?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 12,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente jovial?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 13,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente emocionado?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 14,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente apagado?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 15,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente decaído?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 16,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Ha realizado muchas preguntas el día de hoy?",
   },
   {
     acronimo: "Intranquilo",
     num_pregunta: 17,
-    pregunta: "¿Se siente intranquilo?",
+    pregunta: "¿Se siente desanimado?",
   },
   {
     acronimo: "Molesto",
     num_pregunta: 18,
-    pregunta: "¿Se siente molesto?",
+    pregunta: "¿Se siente Melancólico?",
   },
 ];
 
@@ -304,7 +303,7 @@ class SimpleForm extends Component {
   componentWillMount() {
     let aux = [];
     let cont = 1;
-    this.props.preguntas.forEach((element, index) => {
+    preguntasTest.forEach((element, index) => {
       if (preguntasTest.length - 1 === index) {
         aux.push({
           id: cont.toString(),
