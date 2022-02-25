@@ -19,10 +19,10 @@ const Home = () => {
   const initialState = [
     {
         name: 'Resultado',
-        tristeza: 7,
-        enojo: 4,
-        sorpresa: 2,
-        alegria: 1,
+        tristeza: 0,
+        enojo: 0,
+        sorpresa: 0,
+        alegria: 0,
     }
 ];
 
@@ -34,8 +34,9 @@ const Home = () => {
   const handleResponses = async() => {
     const id = localStorage.getItem('identificador');
     const response = await fetchRespuestas(id ?? 'xHsQHyyIdPTXphKGiyl2ulGon0W2');
-    alert(response.respuestas.length);
-    countData(response.respuestas)
+   
+    countData(response.data.respuestas)
+    console.log(data);
     navigate('/chart', { state: { responses: data } });
   }
 
@@ -45,8 +46,10 @@ const Home = () => {
     let sorpresa = 0;
     let tristeza = 0;
     info.forEach(e => {
-        if(e.emocion === 'Alegria') {alegria++}
-        if(e.emocion === 'Tristeza') {tristeza++}
+        if(e.emocion === 'Felicidad') {alegria++}
+        if(e.emocion === 'Tristeza') {
+          tristeza++
+        }
         if(e.emocion === 'Enojo') {enojo++}
         if(e.emocion === 'Sorpresa') {sorpresa++}
     });
@@ -57,6 +60,7 @@ const Home = () => {
         sorpresa,
         tristeza
     }]);
+    console.log(data.tristeza);
 }
 
   return (

@@ -11,7 +11,7 @@ const fetchPreguntas = async() => {
 
 const fetchRespuestas = async(id) => {
     try {
-        const res = await http.get("/obtener-respuestas/" + id);
+        const res = await http.get("/obtener-resultados/" + id);
         return res;
     } catch (e) {
         console.error(e);
