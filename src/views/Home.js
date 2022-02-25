@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import { Link } from "react-router-dom";
+
 
 import logo from "../assets/logoia.png";
 

@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import WebcamCapture from "./WebcamCapture";
 
-import apiServices from "../services/API";
 
 import logo from "../assets/logocircle.png";
 import user from "../assets/user.png";
@@ -303,19 +302,9 @@ class SimpleForm extends Component {
   }
 
   componentWillMount() {
-    let preguntas = []
-      apiServices
-      .fetchPreguntas()
-      .then((res) => {
-        console.log(res.data.preguntas);
-        preguntas = res.data.preguntas
-      })
-      .catch((e) => {
-        console.error(e);
-      });
     let aux = [];
     let cont = 1;
-    preguntasTest.forEach((element, index) => {
+    this.props.preguntas.forEach((element, index) => {
       if (preguntasTest.length - 1 === index) {
         aux.push({
           id: cont.toString(),
