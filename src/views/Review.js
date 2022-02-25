@@ -4,7 +4,7 @@ import ChatBot from "react-simple-chatbot";
 
 import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import WebcamCapture from "./WebcamCapture";
+import apiServices from "../services/API";
 
 import logo from "../assets/logocircle.png";
 import user from "../assets/user.png";
@@ -393,7 +393,10 @@ class SimpleForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.fileInput.current.files[0].mozFullPath);
+    this.setState({
+      data: this.state.data,
+      image: this.fileInput.current.files[0].name,
+    });
   }
 
   handleEnd({ steps, values }) {
@@ -403,10 +406,10 @@ class SimpleForm extends Component {
     const result = {
       nombre: "Cristian",
       respuestas: values,
-      //imagen: this.state.image,
+      imagen: this.state.image,
     };
     console.log(result);
-    /*
+    
       apiServices
       .reconocerEmocion()
       .then((res) => {
@@ -414,23 +417,13 @@ class SimpleForm extends Component {
       })
       .catch((e) => {
         console.error(e);
-      });*/
+      });
     alert(`Analisis de resultados:`);
   }
 
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <WebcamCapture
-          show={this.state.display}
-          closeDialog={(data) => {
-            this.setState({
-              data: this.state.data,
-              display: false,
-              image: data,
-            });
-          }}
-        ></WebcamCapture>
         <ChatBot
           handleEnd={this.handleEnd}
           botAvatar={logo}
@@ -438,13 +431,15 @@ class SimpleForm extends Component {
           width={"100%"}
           steps={this.state.data}
         />
-        <form onSubmit={this.handleSubmit}>
+        <form className="my-4" onSubmit={this.handleSubmit}>
           <label>
-            Upload file:
+            Subir archivo:
             <input type="file" ref={this.fileInput} />
           </label>
           <br />
-          <button type="submit">Submit</button>
+          <button className="btn btn-success" type="submit">
+            Guardar
+          </button>
         </form>
       </ThemeProvider>
     );
