@@ -403,7 +403,7 @@ class SimpleForm extends Component {
     const result = {
       nombre: "Cristian",
       respuestas: values,
-      imagen: this.state.image,
+      //imagen: this.state.image,
     };
     console.log(result);
     /*
