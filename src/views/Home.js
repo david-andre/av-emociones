@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -6,13 +6,59 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import apiServices from "../services/API";
 
 import logo from "../assets/logoia.png";
 
 const theme = createTheme();
 
 const Home = () => {
+
+  const initialState = [
+    {
+        name: 'Resultado',
+        tristeza: 7,
+        enojo: 4,
+        sorpresa: 2,
+        alegria: 1,
+    }
+];
+
+  let navigate = useNavigate();
+  const [data, setData] = useState(initialState);
+
+  const { fetchRespuestas } = apiServices;
+
+  const handleResponses = async() => {
+    const id = localStorage.getItem('identificador');
+    const response = await fetchRespuestas(id ?? 'xHsQHyyIdPTXphKGiyl2ulGon0W2');
+    alert(response.respuestas.length);
+    countData(response.respuestas)
+    navigate('/chart', { state: { responses: data } });
+  }
+
+  const countData = (info) => {
+    let alegria = 0;
+    let enojo = 0;
+    let sorpresa = 0;
+    let tristeza = 0;
+    info.forEach(e => {
+        if(e.emocion === 'Alegria') {alegria++}
+        if(e.emocion === 'Tristeza') {tristeza++}
+        if(e.emocion === 'Enojo') {enojo++}
+        if(e.emocion === 'Sorpresa') {sorpresa++}
+    });
+    setData([{
+        name: 'Resultado',
+        alegria,
+        enojo,
+        sorpresa,
+        tristeza
+    }]);
+}
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -79,11 +125,9 @@ const Home = () => {
             Realizar Diagnóstico
           </Button>
         </Link>
-        <Link to="/historial" style={{ textDecoration: "none" }}>
-          <Button variant="contained" size="large" className="px-5 ms-5">
-            Ver historial
-          </Button>
-        </Link>
+        <Button onClick={handleResponses} variant="contained" size="large" className="px-5 ms-5">
+          Ver historial
+        </Button>
       </Box>
     </ThemeProvider>
   );

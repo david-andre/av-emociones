@@ -1,5 +1,6 @@
 import { Grid, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Moment from 'react-moment';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -8,60 +9,8 @@ import { BarChart, CartesianGrid, XAxis, YAxis, Legend, Bar, Tooltip } from 'rec
 
 export const Chart = () => {
 
-    const initialState = [
-        {
-            name: 'Resultado',
-            tristeza: 7,
-            enojo: 4,
-            sorpresa: 2,
-            alegria: 1,
-        }
-    ];
-
-    const [data, setData] = useState(initialState);
-
-    const info = [
-        {
-            'emocion': 'Tristeza',
-            'fecha': '02/22/0202',
-        },
-        {
-            'emocion': 'Tristeza',
-            'fecha': '02/22/0202',
-        },
-        {
-            'emocion': 'Alegria',
-            'fecha': '02/22/0202',
-        },
-        {
-            'emocion': 'Enojo',
-            'fecha': '02/22/0202',
-        },
-        {
-            'emocion': 'Sorpresa',
-            'fecha': '02/22/0202',
-        }
-    ];
-
-    const countData = () => {
-        let alegria = 0;
-        let enojo = 0;
-        let sorpresa = 0;
-        let tristeza = 0;
-        info.forEach(e => {
-            if(e.emocion === 'Alegria') {alegria++}
-            if(e.emocion === 'Tristeza') {tristeza++}
-            if(e.emocion === 'Enojo') {enojo++}
-            if(e.emocion === 'Sorpresa') {sorpresa++}
-        });
-        setData([{
-            name: 'Resultado',
-            alegria,
-            enojo,
-            sorpresa,
-            tristeza
-        }]);
-    }
+    const location = useLocation()
+    const { responses } = location.state
 
     return (
         <div>
@@ -80,7 +29,7 @@ export const Chart = () => {
                 textAlign: "center",
             }}>
 
-            <BarChart width={930} height={450} data={data}>
+            <BarChart width={930} height={450} data={responses}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -92,7 +41,6 @@ export const Chart = () => {
                 <Bar dataKey="enojo" fill="#ff686b"  name='&#x1F620;'/>
             </BarChart>
             </Grid>
-            <button onClick={countData}>Here</button>
         </div>
     )
 }
