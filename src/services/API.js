@@ -47,6 +47,7 @@ const agregarresultado = async (data) => {
 
 const reconocerEmocion = async (data) => {
   try {
+    console.log(data)
     const res = await http.post("/reconocer-emocion", data);
     return Promise.resolve(res);
   } catch (err) {

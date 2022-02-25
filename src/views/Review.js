@@ -400,10 +400,13 @@ class SimpleForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log(this.fileInput.current.files[0].name);
     this.setState({
       data: this.state.data,
       image: this.fileInput.current.files[0].name,
     });
+    console.log(this.state.data);
+    console.log(this.state.image);
   }
 
   handleEnd({ steps, values }) {
@@ -413,12 +416,12 @@ class SimpleForm extends Component {
     const result = {
       nombre: "Cristian",
       respuestas: values,
-      imagen: this.state.image,
+      imagen: "maurof1.jpeg",
     };
     console.log(result);
 
     apiServices
-      .reconocerEmocion()
+      .reconocerEmocion(result)
       .then((res) => {
         console.log(res);
         let emoji1;
