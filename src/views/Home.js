@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,52 +16,33 @@ const theme = createTheme();
 
 const Home = () => {
 
-  const initialState = [
-    {
-        name: 'Resultado',
-        tristeza: 0,
-        enojo: 0,
-        sorpresa: 0,
-        alegria: 0,
-    }
-];
-
   let navigate = useNavigate();
-  const [data, setData] = useState(initialState);
+  
 
   const { fetchRespuestas } = apiServices;
 
   const handleResponses = async() => {
     const id = localStorage.getItem('identificador');
     const response = await fetchRespuestas(id ?? 'xHsQHyyIdPTXphKGiyl2ulGon0W2');
-   
-    countData(response.data.respuestas)
-    console.log(data);
-    navigate('/chart', { state: { responses: data } });
-  }
-
-  const countData = (info) => {
     let alegria = 0;
     let enojo = 0;
     let sorpresa = 0;
     let tristeza = 0;
-    info.forEach(e => {
+    response.data.respuestas.forEach(e => {
         if(e.emocion === 'Felicidad') {alegria++}
-        if(e.emocion === 'Tristeza') {
-          tristeza++
-        }
+        if(e.emocion === 'Tristeza') {tristeza++}
         if(e.emocion === 'Enojo') {enojo++}
         if(e.emocion === 'Sorpresa') {sorpresa++}
     });
-    setData([{
-        name: 'Resultado',
-        alegria,
-        enojo,
-        sorpresa,
-        tristeza
-    }]);
-    console.log(data.tristeza);
-}
+    let info = [{
+      name: 'Resultado',
+      tristeza,
+      enojo,
+      sorpresa,
+      alegria,
+  }];
+    navigate('/chart', { state: { responses: info } });
+  }
 
   return (
     <ThemeProvider theme={theme}>
