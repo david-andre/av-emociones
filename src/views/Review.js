@@ -303,19 +303,19 @@ class SimpleForm extends Component {
   }
 
   componentWillMount() {
-    /*let preguntas = []
-      apiServices
+    let preguntas = [];
+    apiServices
       .fetchPreguntas()
       .then((res) => {
         console.log(res.message);
-        preguntas = res.preguntas
+        preguntas = res.preguntas;
       })
       .catch((e) => {
         console.error(e);
-      });*/
+      });
     let aux = [];
     let cont = 1;
-    preguntasTest.forEach((element, index) => {
+    preguntas.forEach((element, index) => {
       if (preguntasTest.length - 1 === index) {
         aux.push({
           id: cont.toString(),
