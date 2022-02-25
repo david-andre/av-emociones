@@ -35,10 +35,10 @@ export const Chart = () => {
                 <YAxis />
                 <Tooltip/>
                 <Legend />
-                <Bar dataKey="alegria" fill="#fcf45d" name='&#x1F642;' />
-                <Bar dataKey="tristeza" fill="#a2d2ff"  name='&#x1F641;'/>
-                <Bar dataKey="sorpresa" fill="#aaf683"  name='&#x1F62E;'/>
-                <Bar dataKey="enojo" fill="#ff686b"  name='&#x1F620;'/>
+                <Bar dataKey="alegria" fill="#1B941B" name='&#x1F642;&nbsp; Felicidad' />
+                <Bar dataKey="tristeza" fill="#AAABAA"  name='&#x1F641;&nbsp; Tristeza'/>
+                <Bar dataKey="sorpresa" fill="#1BD6F9"  name='&#x1F62E;&nbsp; Sorpresa'/>
+                <Bar dataKey="enojo" fill="#F9621B"  name='&#x1F620;&nbsp; Enojo'/>
             </BarChart>
             </Grid>
         </div>
