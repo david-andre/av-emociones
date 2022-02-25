@@ -59,6 +59,7 @@ const apiServices = {
   reconocerEmocion,
   iniciarsesion,
   registrarse,
+  agregarresultado,
 };
 
 export default apiServices;

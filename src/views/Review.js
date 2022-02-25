@@ -6,8 +6,15 @@ import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import apiServices from "../services/API";
 
+import Swal from "sweetalert2";
+
 import logo from "../assets/logocircle.png";
 import user from "../assets/user.png";
+
+import feliz from "../assets/feliz.png";
+import triste from "../assets/triste.png";
+import sorprendido from "../assets/sorprendido.png";
+import enojado from "../assets/enojado.png";
 
 const preguntasTest = [
   {
@@ -409,16 +416,95 @@ class SimpleForm extends Component {
       imagen: this.state.image,
     };
     console.log(result);
-    
-      apiServices
+
+    apiServices
       .reconocerEmocion()
       .then((res) => {
         console.log(res);
+        let emoji1;
+        if (res.data.emocionF === "Felicidad") {
+          emoji1 = feliz;
+        }
+        if (res.data.emocionF === "Tristeza") {
+          emoji1 = triste;
+        }
+        if (res.data.emocionF === "Sorpresa") {
+          emoji1 = sorprendido;
+        }
+        if (res.data.emocionF === "Enojo") {
+          emoji1 = enojado;
+        }
+
+        let emoji2;
+        if (res.data.emocionP === "Felicidad") {
+          emoji2 = feliz;
+        }
+        if (res.data.emocionP === "Tristeza") {
+          emoji2 = triste;
+        }
+        if (res.data.emocionP === "Sorpresa") {
+          emoji2 = sorprendido;
+        }
+        if (res.data.emocionP === "Enojo") {
+          emoji2 = enojado;
+        }
+        Swal.fire({
+          title: "Emocion Facial",
+          text: res.data.emocionF,
+          imageUrl: emoji1,
+          imageWidth: 200,
+          imageHeight: 200,
+          imageAlt: "Custom image",
+        }).then((result) => {
+          Swal.fire({
+            title: "Emocion de preguntas",
+            text: res.data.emocionP,
+            imageUrl: emoji2,
+            imageWidth: 200,
+            imageHeight: 200,
+            imageAlt: "Custom image",
+          }).then((result) => {
+            Swal.fire({
+              title: "Frase",
+              text: res.data.frase,
+              imageUrl: "https://unsplash.it/400/200",
+              imageWidth: 400,
+              imageHeight: 200,
+              imageAlt: "Custom image",
+            }).then((result) => {
+              Swal.fire({
+                title: "Deseas guardar los datos?",
+                text: "Asi podremos tener un historial de tus emociones",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "OK",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  const user = JSON.parse(
+                    localStorage.getItem("identificador")
+                  );
+                  apiServices.agregarresultado({
+                    emocion: res.data.emocionF,
+                    fecha: new Date().toLocaleDateString(),
+                    hora: new Date().toLocaleTimeString(),
+                    id_persona: user,
+                  });
+                  Swal.fire(
+                    "Completado!",
+                    "Se han registrado tus datos",
+                    "success"
+                  );
+                }
+              });
+            });
+          });
+        });
       })
       .catch((e) => {
         console.error(e);
       });
-    alert(`Analisis de resultados:`);
   }
 
   render() {
