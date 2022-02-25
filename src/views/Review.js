@@ -307,97 +307,101 @@ class SimpleForm extends Component {
     apiServices
       .fetchPreguntas()
       .then((res) => {
-        console.log(res.message);
-        preguntas = res.preguntas;
+        console.log(res.data.message);
+        preguntas = res.data.preguntas;
+        let aux = [];
+        let cont = 1;
+        preguntas.forEach((element, index) => {
+          if (preguntasTest.length - 1 === index) {
+            aux.push({
+              id: cont.toString(),
+              message: element.pregunta,
+              trigger: `respuesta${cont}`,
+            });
+            aux.push({
+              id: `respuesta${index + 1}`,
+              options: [
+                { value: "SI", label: "SI", trigger: "final" },
+                { value: "NO", label: "NO", trigger: "final" },
+              ],
+            });
+          } else {
+            aux.push({
+              id: cont.toString(),
+              message: element.pregunta,
+              trigger: `respuesta${cont}`,
+            });
+            aux.push({
+              id: `respuesta${cont}`,
+              options: [
+                { value: "SI", label: "SI", trigger: (cont + 1).toString() },
+                { value: "NO", label: "NO", trigger: (cont + 1).toString() },
+              ],
+            });
+            cont++;
+          }
+        });
+        let final = [
+          {
+            id: "final",
+            message: "Genial! Revisemos las respuestas",
+            trigger: "review",
+          },
+          {
+            id: "review",
+            component: <Review />,
+            asMessage: true,
+            trigger: "update",
+          },
+          {
+            id: "update",
+            message:
+              "A continuación, seleccione una foto o tomate una foto en la parte inferior",
+            trigger: "confirmacion",
+          },
+          {
+            id: "confirmacion",
+            options: [
+              {
+                value: "Confirmar",
+                label: "Confirmar",
+                trigger: "end-message",
+              },
+            ],
+          },
+          { id: "exit", component: <Navigate to="/home" /> },
+          {
+            id: "end-message",
+            message: "Listo! Ahora analizaremos los datos!",
+            end: true,
+          },
+        ];
+        let saludo = [
+          {
+            id: "saludo",
+            message: "Hola, soy tu asistente para evaluar tu estado emocional",
+            trigger: "intro",
+          },
+          {
+            id: "intro",
+            message:
+              "Ahora te realizaré una serie de preguntas, ¿Deseas continuar?",
+            trigger: "accept",
+          },
+          {
+            id: "accept",
+            options: [
+              { value: true, label: "SI", trigger: "1" },
+              { value: false, label: "SALIR", trigger: "exit" },
+            ],
+          },
+        ];
+        this.setState({ data: saludo.concat(aux, final) });
+        console.log(aux.concat(final));
       })
       .catch((e) => {
         console.error(e);
       });
-    let aux = [];
-    let cont = 1;
-    preguntas.forEach((element, index) => {
-      if (preguntasTest.length - 1 === index) {
-        aux.push({
-          id: cont.toString(),
-          message: element.pregunta,
-          trigger: `respuesta${cont}`,
-        });
-        aux.push({
-          id: `respuesta${index + 1}`,
-          options: [
-            { value: "SI", label: "SI", trigger: "final" },
-            { value: "NO", label: "NO", trigger: "final" },
-          ],
-        });
-      } else {
-        aux.push({
-          id: cont.toString(),
-          message: element.pregunta,
-          trigger: `respuesta${cont}`,
-        });
-        aux.push({
-          id: `respuesta${cont}`,
-          options: [
-            { value: "SI", label: "SI", trigger: (cont + 1).toString() },
-            { value: "NO", label: "NO", trigger: (cont + 1).toString() },
-          ],
-        });
-        cont++;
-      }
-    });
-    let final = [
-      {
-        id: "final",
-        message: "Genial! Revisemos las respuestas",
-        trigger: "review",
-      },
-      {
-        id: "review",
-        component: <Review />,
-        asMessage: true,
-        trigger: "update",
-      },
-      {
-        id: "update",
-        message:
-          "A continuación, seleccione una foto o tomate una foto en la parte inferior",
-        trigger: "confirmacion",
-      },
-      {
-        id: "confirmacion",
-        options: [
-          { value: "Confirmar", label: "Confirmar", trigger: "end-message" },
-        ],
-      },
-      { id: "exit", component: <Navigate to="/home" /> },
-      {
-        id: "end-message",
-        message: "Listo! Ahora analizaremos los datos!",
-        end: true,
-      },
-    ];
-    let saludo = [
-      {
-        id: "saludo",
-        message: "Hola, soy tu asistente para evaluar tu estado emocional",
-        trigger: "intro",
-      },
-      {
-        id: "intro",
-        message:
-          "Ahora te realizaré una serie de preguntas, ¿Deseas continuar?",
-        trigger: "accept",
-      },
-      {
-        id: "accept",
-        options: [
-          { value: true, label: "SI", trigger: "1" },
-          { value: false, label: "SALIR", trigger: "exit" },
-        ],
-      },
-    ];
-    this.setState({ data: saludo.concat(aux, final) });
-    console.log(aux.concat(final));
   }
   componentDidMount() {
     this.handleEnd = this.handleEnd.bind(this);
