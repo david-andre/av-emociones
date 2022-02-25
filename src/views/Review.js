@@ -291,107 +291,123 @@ class SimpleForm extends Component {
       data: [],
       display: false,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileInput = React.createRef();
+  }
+
+  loadFile(e) {
+    if (e.target.files.length > 0) {
+      const file = URL.createObjectURL(e.target.files[0]);
+      console.log(file);
+    }
   }
 
   componentWillMount() {
-    /*let preguntas = []
-      apiServices
+    let preguntas = [];
+    apiServices
       .fetchPreguntas()
       .then((res) => {
-        console.log(res.message);
-        preguntas = res.preguntas
+        console.log(res.data.mensaje);
+        preguntas = res.data.preguntas;
       })
       .catch((e) => {
         console.error(e);
-      });*/
-    let aux = [];
-    let cont = 1;
-    preguntasTest.forEach((element, index) => {
-      if (preguntasTest.length - 1 === index) {
-        aux.push({
-          id: cont.toString(),
-          message: element.pregunta,
-          trigger: `respuesta${cont}`,
+      }).finally(()=>{
+        let aux = [];
+        let cont = 1;
+        preguntas.forEach((element, index) => {
+          if (preguntas.length - 1 === index) {
+            aux.push({
+              id: cont.toString(),
+              message: element.pregunta,
+              trigger: `respuesta${cont}`,
+            });
+            aux.push({
+              id: `respuesta${index + 1}`,
+              options: [
+                { value: "SI", label: "SI", trigger: "final" },
+                { value: "NO", label: "NO", trigger: "final" },
+              ],
+            });
+          } else {
+            aux.push({
+              id: cont.toString(),
+              message: element.pregunta,
+              trigger: `respuesta${cont}`,
+            });
+            aux.push({
+              id: `respuesta${cont}`,
+              options: [
+                { value: "SI", label: "SI", trigger: (cont + 1).toString() },
+                { value: "NO", label: "NO", trigger: (cont + 1).toString() },
+              ],
+            });
+            cont++;
+          }
         });
-        aux.push({
-          id: `respuesta${index + 1}`,
-          options: [
-            { value: "SI", label: "SI", trigger: "final" },
-            { value: "NO", label: "NO", trigger: "final" },
-          ],
-        });
-      } else {
-        aux.push({
-          id: cont.toString(),
-          message: element.pregunta,
-          trigger: `respuesta${cont}`,
-        });
-        aux.push({
-          id: `respuesta${cont}`,
-          options: [
-            { value: "SI", label: "SI", trigger: (cont + 1).toString() },
-            { value: "NO", label: "NO", trigger: (cont + 1).toString() },
-          ],
-        });
-        cont++;
-      }
-    });
-    let final = [
-      {
-        id: "final",
-        message: "Genial! Revisemos las respuestas",
-        trigger: "review",
-      },
-      {
-        id: "review",
-        component: <Review />,
-        asMessage: true,
-        trigger: "update",
-      },
-      {
-        id: "update",
-        message:
-          "A continuación, seleccione una foto o tomate una foto en la parte inferior",
-        trigger: "confirmacion",
-      },
-      {
-        id: "confirmacion",
-        options: [
-          { value: "Confirmar", label: "Confirmar", trigger: "end-message" },
-        ],
-      },
-      { id: "exit", component: <Navigate to="/home" /> },
-      {
-        id: "end-message",
-        message: "Listo! Ahora analizaremos los datos!",
-        end: true,
-      },
-    ];
-    let saludo = [
-      {
-        id: "saludo",
-        message: "Hola, soy tu asistente para evaluar tu estado emocional",
-        trigger: "intro",
-      },
-      {
-        id: "intro",
-        message:
-          "Ahora te realizaré una serie de preguntas, ¿Deseas continuar?",
-        trigger: "accept",
-      },
-      {
-        id: "accept",
-        options: [
-          { value: true, label: "SI", trigger: "1" },
-          { value: false, label: "SALIR", trigger: "exit" },
-        ],
-      },
-    ];
-    this.setState({ data: saludo.concat(aux, final) });
-    console.log(aux.concat(final));
+        let final = [
+          {
+            id: "final",
+            message: "Genial! Revisemos las respuestas",
+            trigger: "review",
+          },
+          {
+            id: "review",
+            component: <Review />,
+            asMessage: true,
+            trigger: "update",
+          },
+          {
+            id: "update",
+            message:
+              "A continuación, seleccione una foto o tomate una foto en la parte inferior",
+            trigger: "confirmacion",
+          },
+          {
+            id: "confirmacion",
+            options: [
+              { value: "Confirmar", label: "Confirmar", trigger: "end-message" },
+            ],
+          },
+          { id: "exit", component: <Navigate to="/home" /> },
+          {
+            id: "end-message",
+            message: "Listo! Ahora analizaremos los datos!",
+            end: true,
+          },
+        ];
+        let saludo = [
+          {
+            id: "saludo",
+            message: "Hola, soy tu asistente para evaluar tu estado emocional",
+            trigger: "intro",
+          },
+          {
+            id: "intro",
+            message:
+              "Ahora te realizaré una serie de preguntas, ¿Deseas continuar?",
+            trigger: "accept",
+          },
+          {
+            id: "accept",
+            options: [
+              { value: true, label: "SI", trigger: "1" },
+              { value: false, label: "SALIR", trigger: "exit" },
+            ],
+          },
+        ];
+        this.setState({ data: saludo.concat(aux, final) });
+        console.log(aux.concat(final));
+      });
+    
   }
   componentDidMount() {
     this.handleEnd = this.handleEnd.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.fileInput.current.files[0].mozFullPath);
   }
 
   handleEnd({ steps, values }) {
@@ -436,14 +452,14 @@ class SimpleForm extends Component {
           width={"100%"}
           steps={this.state.data}
         />
-        <button
-          className="btn btn-success mt-3"
-          onClick={() =>
-            this.setState({ data: this.state.data, display: true })
-          }
-        >
-          Tomar foto
-        </button>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Upload file:
+            <input type="file" ref={this.fileInput} />
+          </label>
+          <br />
+          <button type="submit">Submit</button>
+        </form>
       </ThemeProvider>
     );
   }

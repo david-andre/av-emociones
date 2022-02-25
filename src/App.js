@@ -6,6 +6,8 @@ import Diagnostic from "./views/Diagnostic";
 import History from "./views/History";
 import { Chart } from "./views/Chart";
 
+import React, { useState } from "react";
+
 function App() {
   return (
     <BrowserRouter>

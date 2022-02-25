@@ -9,13 +9,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import logo from "../assets/logoia.png";
+import apiServices from "../services/API";
 
 const theme = createTheme();
 
 const SignIn = () => {
+  const [redirect, setRedirect] = React.useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -24,8 +27,28 @@ const SignIn = () => {
       email: data.get("email"),
       password: data.get("password"),
     });
+    apiServices
+      .iniciarsesion({
+        email: data.get("email"),
+        password: data.get("password"),
+        returnSecureToken: true,
+      })
+      .then((res) => {
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        localStorage.setItem(
+          "identificador",
+          JSON.stringify(res.data.identificador)
+        );
+        setRedirect(true);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
+  if (redirect) {
+    return <Navigate to="/home" />;
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid
@@ -84,19 +107,17 @@ const SignIn = () => {
                 {"¿No tienes cuenta? Registrate"}
               </Link>
             </Grid>
-            <Link to="/home">
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                }}
-              >
-                INGRESAR
-              </Button>
-            </Link>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
+              }}
+            >
+              INGRESAR
+            </Button>
           </Box>
         </Box>
       </Container>
